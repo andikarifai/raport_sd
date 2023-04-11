@@ -10,8 +10,8 @@ if (isset($_POST["submit"])) {
     $nisn = $_POST["nisn"];
     $nama = $_POST["nama_siswa"];
     $jk = $_POST["jenis_kelamin"];
-    $tmplahir = $_POST["tempat_lahir"];
-    $tgllhr = $_POST["tgl_lahir"];
+    $tmplahir = $_POST["tempat_lahir_siswa"];
+    $tgllhr = $_POST["tgl_lahir_siswa"];
     $agama = $_POST["agama_siswa"];
     $alamat = $_POST["alamat_siswa"];
     $nmayah = $_POST["nama_ayah"];
@@ -87,7 +87,7 @@ if (isset($_POST["submit"])) {
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="kode" class="control-label">Tanggal Lahir</label>
-                                <input type="date" name="tgl_lahir" value="" class="form-control" id="tanggal_lahir_siswa">
+                                <input type="date" name="tgl_lahir_siswa" value="" class="form-control" id="tanggal_lahir_siswa">
                             </div>
                         </div>
                         <div class="col-md-2">
