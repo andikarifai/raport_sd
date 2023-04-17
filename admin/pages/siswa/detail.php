@@ -1,18 +1,20 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include_once('../template/header.php');
 include_once('../../../function.php');
 include '../../../koneksi.php';
 
 
-
 $id = decryptId($_GET['id']);
-$murid = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = $id");
-while ($data_siswa = mysqli_fetch_assoc($murid)) {
+$stmt = $koneksi->prepare("SELECT * FROM siswa WHERE id_siswa = ?");
+$stmt->bind_param("s", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($data_siswa = $result->fetch_assoc()) {
 
-?>
-
-    <?php include_once('../template/header.php');
+    
     ?>
     <!-- Begin Page Content -->
 
@@ -96,7 +98,8 @@ while ($data_siswa = mysqli_fetch_assoc($murid)) {
 
     </div>
     <!-- End of Main Content -->
-<?php } ?>
+<?php } 
+$stmt->close();?>
 <!-- Footer -->
 </div>
 <!-- End of Footer -->
