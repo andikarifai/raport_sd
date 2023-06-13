@@ -26,20 +26,12 @@ foreach ($sheet as $rowIndex => $row) {
     if ($rowIndex < 6) {
         continue;
     }
+    $lvl = 3 ;
     $nama = $row['B'];
-    $jk = $row['C'];
-    $nis = $row['E'];
-    $nisn = $row['D'];
-    $tmplahir = $row['F'];
-    $tgllhr = $row['G'];
-    $agama = $row['H'];
-    $alamat = $row['I'];
-    $nmayah = $row['J'];
-    $nmibu = $row['K'];
-    $krjayah = $row['L'];
-    $krjibu = $row['M'];
-    $nmkelas = $row['N'];
-    $import = "INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `jenis_kelamin`,  `nidn`, `nisn`, `tempat_lahir_siswa`, `tanggal_lahir_siswa`, `agama_siswa`, `alamat_siswa`, `nama_ayah`, `nama_ibu`, `kerja_ayah`, `kerja_ibu`, `nama_kelas`) VALUES (NULL, '$nama', '$jk', '$nis', '$nisn', '$tmplahir', '$tgllhr', '$agama', '$alamat', '$nmayah', '$nmibu', '$krjayah', '$krjibu', '$nmkelas')";
+    $nisn = md5($row['D']);
+    $nidn = $row['D'];
+    $kls = $row['N'];
+    $import = "INSERT INTO users (`id_user`, `username`, `password`, `nama`, `level`, `kelas`, `id_session`, `foto`) VALUES (NULL, '$nama', '$nisn', '$nama',  '$lvl', '$kls', $nidn, '')";
     if (mysqli_query($koneksi, $import) > 0) {
         echo "<script>
     alert('data berhasil ditambahkan');

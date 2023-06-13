@@ -10,8 +10,25 @@ if (empty($_SESSION)) {
 include_once('../template/header.php');
 
 include_once('../../../function.php');
-$murid = mysqli_query($koneksi, "SELECT * FROM siswa");
 
+// Tentukan jumlah data per halaman
+$jumlahDataPerHalaman = 10;
+
+// Tentukan halaman saat ini
+$halamanSaatIni = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+
+// Hitung offset (mulai data) berdasarkan halaman saat ini
+$offset = ($halamanSaatIni - 1) * $jumlahDataPerHalaman;
+
+// Kueri SQL untuk mendapatkan data siswa dengan batasan jumlah dan offset
+$kueri = "SELECT * FROM siswa LIMIT $offset, $jumlahDataPerHalaman";
+$result = mysqli_query($koneksi, $kueri);
+
+// Kueri SQL untuk mendapatkan total jumlah data siswa
+$totalData = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa"));
+
+// Hitung total halaman berdasarkan jumlah data per halaman
+$totalHalaman = ceil($totalData / $jumlahDataPerHalaman);
 
 ?>
 
@@ -38,8 +55,9 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
-                            <th>NIS</th>
+                            <th>NIDN</th>
                             <th>NISN</th>
                             <th>Agama</th>
                             <th>Tempat Lahir</th>
@@ -56,15 +74,14 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
 
                     <tbody>
                         <?php
-                        $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
-                        while ($tampil = mysqli_fetch_assoc($murid)) :
+                        $nomor = $offset + 1;
+                        while ($tampil = mysqli_fetch_assoc($result)) :
                             $id = $tampil['id_siswa'];
-                            // var_dump($id);
-                            // echo ($id);
                         ?>
                             <tr>
+                                <td><?= $nomor++; ?></td>
                                 <td><?= $tampil["nama_siswa"]; ?></td>
-                                <td><?= $tampil["nis"]; ?></td>
+                                <td><?= $tampil["nidn"]; ?></td>
                                 <td><?= $tampil["nisn"]; ?></td>
                                 <td><?= $tampil["agama_siswa"]; ?></td>
                                 <td><?= $tampil["tempat_lahir_siswa"]; ?></td>
@@ -83,11 +100,30 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                                 </td>
 
                             </tr>
-                        <?php endwhile;
+                        <?php endwhile; ?>
 
-                        ?>
                     </tbody>
                 </table>
+            </div>
+            <br>
+            <br>
+            <!-- Pagination links -->
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    <?php if ($halamanSaatIni > 1) : ?>
+                        <li class="page-item"><a class="page-link" href="?halaman=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $halamanSaatIni - 1; ?>">Previous</a></li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalHalaman; $i++) : ?>
+                        <li class="page-item <?= ($halamanSaatIni == $i) ? 'active' : ''; ?>"><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
+                    <?php endfor; ?>
+
+                    <?php if ($halamanSaatIni < $totalHalaman) : ?>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $halamanSaatIni + 1; ?>">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $totalHalaman; ?>">Last</a></li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
     </div>

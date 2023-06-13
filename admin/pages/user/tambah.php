@@ -13,10 +13,10 @@ if (isset($_POST["submit"])) {
     $nama = $_POST["nama"];
     $lvl = $_POST["level"];
     $kls = $_POST["kelas"];
-    $ni = $_POST["no_induk"];
+    $ni = $_POST["id_session"];
 
 
-    $tambahuser = "INSERT INTO users (`id_user`, `username`, `password`, `nama`, `level`, `kelas`, `no_induk`, `foto`) VALUES (NULL, '$user', '$pw', '$nama',  '$lvl', '$kls','$ni', '')";
+    $tambahuser = "INSERT INTO users (`id_user`, `username`, `password`, `nama`, `level`, `kelas`, `id_session`, `foto`) VALUES (NULL, '$user', '$pw', '$nama',  '$lvl', '$kls','$ni', '')";
 
     if (mysqli_query($koneksi, $tambahuser) > 0) {
         echo "<script>
@@ -92,8 +92,8 @@ if (isset($_POST["submit"])) {
                     </div>
                     <div class="row">
                         <div class="col-lg-5">
-                            <label for="kelas">ID (nis/nip) </label>
-                            <input type="text" name="no_induk" id="no_induk" value="" class="form-control">
+                            <label for="kelas">ID (nidn/nip) </label>
+                            <input type="text" name="id_session" id="no_induk" value="" class="form-control">
 
                         </div>
                     </div>

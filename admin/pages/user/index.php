@@ -1,10 +1,26 @@
 <?php
 session_start();
 include_once('../template/header.php');
-$user = mysqli_query($koneksi, "SELECT * FROM users");
 
-// tombol cari diklik maka ditimpa
 
+// Tentukan jumlah data per halaman
+$jumlahDataPerHalaman = 10;
+
+// Tentukan halaman saat ini
+$halamanSaatIni = isset($_GET['halaman']) ? (int)$_GET['halaman'] : 1;
+
+// Hitung offset (mulai data) berdasarkan halaman saat ini
+$offset = ($halamanSaatIni - 1) * $jumlahDataPerHalaman;
+
+// Kueri SQL untuk mendapatkan data siswa dengan batasan jumlah dan offset
+$kueri = "SELECT * FROM users LIMIT $offset, $jumlahDataPerHalaman";
+$result = mysqli_query($koneksi, $kueri);
+
+// Kueri SQL untuk mendapatkan total jumlah data siswa
+$totalData = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM users"));
+
+// Hitung total halaman berdasarkan jumlah data per halaman
+$totalHalaman = ceil($totalData / $jumlahDataPerHalaman);
 
 
 ?>
@@ -17,9 +33,10 @@ $user = mysqli_query($koneksi, "SELECT * FROM users");
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Daftar Pengguna</h1>
 
-    <a href="tambah.php" class="btn btn-primary ml-4 mb-2">
-        <ii class="fa fa-plus-square"></ii><span></span> Tambah Data Pengguna
-    </a>
+    
+    <a href="tambah.php" class="btn btn-primary ml-4 mb-2"><i class="fa fa-plus-square" aria-hidden="true"></i> <span></span> Tambah Data Pengguna</a>
+    <a href="import.php" class="btn btn-success ml-4 mb-2" target="_blank"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Import data</a>
+   
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <!-- <div class="card-header py-3">
@@ -40,12 +57,13 @@ $user = mysqli_query($koneksi, "SELECT * FROM users");
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 1; ?>
-                        <?php
-                        while ($tampil = mysqli_fetch_assoc($user)) :
+                        <?php 
+                        $nomor = $offset + 1;
+                        while ($tampil = mysqli_fetch_assoc($result)) :
+                            $id = $tampil['id_user'];
                         ?>
                             <tr>
-                                <td><?= $i++; ?></td>
+                                <td><?= $nomor++; ?></td>
                                 <td><?= $tampil["username"]; ?></td>
                                 <td><?= $tampil["nama"]; ?></td>
                                 <td>
@@ -69,6 +87,26 @@ $user = mysqli_query($koneksi, "SELECT * FROM users");
                         <?php endwhile; ?>
                     </tbody>
                 </table>
+            </div>
+            <br>
+            <br>
+            <!-- Pagination links -->
+            <div class="pagination justify-content-center">
+                <ul class="pagination">
+                    <?php if ($halamanSaatIni > 1) : ?>
+                        <li class="page-item"><a class="page-link" href="?halaman=1">First</a></li>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $halamanSaatIni - 1; ?>">Previous</a></li>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalHalaman; $i++) : ?>
+                        <li class="page-item <?= ($halamanSaatIni == $i) ? 'active' : ''; ?>"><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
+                    <?php endfor; ?>
+
+                    <?php if ($halamanSaatIni < $totalHalaman) : ?>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $halamanSaatIni + 1; ?>">Next</a></li>
+                        <li class="page-item"><a class="page-link" href="?halaman=<?= $totalHalaman; ?>">Last</a></li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
     </div>

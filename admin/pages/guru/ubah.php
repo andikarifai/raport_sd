@@ -52,9 +52,12 @@ if (isset($_POST["submit"])) {
                     <?php
 
                     $id = decryptId($_GET['id']);
-                    $guru = mysqli_query($koneksi, "SELECT * FROM guru WHERE id_guru = $id");
-
-                    while ($data_guru = mysqli_fetch_assoc($guru)) {
+$stmt = $koneksi->prepare("SELECT * FROM guru WHERE id_guru = ?");
+$stmt->bind_param("s", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+while ($data_guru = $result->fetch_assoc()) {
+ 
 
 
 
@@ -103,9 +106,9 @@ if (isset($_POST["submit"])) {
                         <a href="index.php" class="btn btn-warning">Kembali</a>
                 </form>
                 <br><br>
-            <?php }
-                    // var_dump($id);
-                    // echo ($id); 
+            <?php  
+                }
+                $stmt->close();
             ?>
 
             </div>

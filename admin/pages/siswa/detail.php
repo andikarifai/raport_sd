@@ -34,8 +34,8 @@ while ($data_siswa = $result->fetch_assoc()) {
                     <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0">
                         <thead>
                             <tr>
-                                <td>NIS</td>
-                                <td><?= $data_siswa['nis']; ?> </td>
+                                <td>NIDN</td>
+                                <td><?= $data_siswa['nidn']; ?> </td>
                             </tr>
                             <tr>
                                 <td>NISN</td>

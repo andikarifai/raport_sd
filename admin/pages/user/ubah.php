@@ -12,10 +12,10 @@ if (isset($_POST["submit"])) {
     $nama = $_POST["nama"];
     $lvl = $_POST["level"];
     $kls = $_POST["kelas"];
-    $ni = $_POST["no_induk"];
+    $ni = $_POST["id_session"];
 
 
-    $ubahuser = "UPDATE `users` SET `username` = '$user', `password` = '$pw', `nama` = '$nama', `level` = '$lvl', `kelas` = '$kls', `no_induk` = $ni WHERE `users`.`id_user` = $id";
+    $ubahuser = "UPDATE `users` SET `username` = '$user', `password` = '$pw', `nama` = '$nama', `level` = '$lvl', `kelas` = '$kls', `id_session` = $ni WHERE `users`.`id_user` = $id";
     if (mysqli_query($koneksi, $ubahuser) > 0) {
         echo "<script>
  alert('data berhasil diupdate');
@@ -102,8 +102,8 @@ if (isset($_POST["submit"])) {
                         </div>
                         <div class="row">
                             <div class="col-lg">
-                                <label for="kelas">NIP/NIS
-                                <input type="text" name="no_induk" id="no_induk" value="<?= $tampil_user['no_induk'] ?>" class="form-control">
+                                <label for="kelas">NIP/NIDN
+                                <input type="text" name="no_induk" id="no_induk" value="<?= $tampil_user['id_session'] ?>" class="form-control">
                                 </label>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 <?php
 
-require '../template/header.php';
+// require '../template/header.php';
 require '../../../koneksi.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -60,7 +60,7 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                     <thead>
                         <tr border="1">
                             <th>No</th>
-                            <th>NIS</th>
+                            <th>NIDN</th>
                             <th>NISN</th>
                             <th>Nama</th>
                             <th>Tempat Lahir</th>
@@ -83,7 +83,7 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                         ?>
                             <tr border="1">
                                 <td><?= $i++; ?></td>
-                                <td><?= $tampil["nis"]; ?></td>
+                                <td><?= $tampil["nidn"]; ?></td>
                                 <td><?= $tampil["nisn"]; ?></td>
                                 <td><?= $tampil["nama_siswa"]; ?></td>
                                 <td><?= $tampil["tempat_lahir_siswa"]; ?></td>
@@ -97,7 +97,7 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                                 <td><?= $tampil["nama_kelas"]; ?></td>
                             </tr>
                         <?php endwhile;
-                        var_dump($tampil); ?>
+                        // var_dump($tampil); ?>
                     </tbody>
                 </table>
             </div>

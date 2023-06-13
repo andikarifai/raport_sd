@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include_once('../template/header.php');
 include_once('../../../function.php');
@@ -7,7 +9,7 @@ include_once('../../../function.php');
 <?php
 if (isset($_POST["submit"])) {
     $id = $_POST["id_siswa"];
-    $nis = $_POST["nis"];
+    $nis = $_POST["nidn"];
     $nisn = $_POST["nisn"];
     $nama = $_POST["nama_siswa"];
     $jk = $_POST["jenis_kelamin"];
@@ -20,7 +22,7 @@ if (isset($_POST["submit"])) {
     $krjayah = $_POST["kerja_ayah"];
     $krjibu = $_POST["kerja_ibu"];
     $nmkelas = $_POST["nama_kelas"];
-    $ubah = "UPDATE `siswa` SET  `nis` = '$nis', `nisn`='$nisn', `nama_siswa`='$nama', `jenis_kelamin`= '$jk', `tempat_lahir_siswa`= '$tmplahir', `tanggal_lahir_siswa`='$tgllhr', `agama_siswa`='$agama', `alamat_siswa`='$alamat', `nama_ayah`= '$nmayah', `nama_ibu`='$nmibu', `kerja_ayah`= '$krjayah', `kerja_ibu`= '$krjibu', `nama_kelas` = '$nmkelas' WHERE siswa.id_siswa = $id;";
+    $ubah = "UPDATE `siswa` SET  `nidn` = '$nis', `nisn`='$nisn', `nama_siswa`='$nama', `jenis_kelamin`= '$jk', `tempat_lahir_siswa`= '$tmplahir', `tanggal_lahir_siswa`='$tgllhr', `agama_siswa`='$agama', `alamat_siswa`='$alamat', `nama_ayah`= '$nmayah', `nama_ibu`='$nmibu', `kerja_ayah`= '$krjayah', `kerja_ibu`= '$krjibu', `nama_kelas` = '$nmkelas' WHERE siswa.id_siswa = $id;";
     if (mysqli_query($koneksi, $ubah) > 0) {
         echo "<script>
         alert('data berhasil diubah!');
@@ -59,8 +61,8 @@ if (isset($_POST["submit"])) {
                             <input type="hidden" name="id_siswa" value="<?= $data_siswa['id_siswa']; ?>" class="form-control" id="id">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="kode" class="control-label">NIS</label>
-                                    <input type="text" name="nis" value="<?= $data_siswa['nis']; ?>" class="form-control" id="nis">
+                                    <label for="kode" class="control-label">NIDN</label>
+                                    <input type="text" name="nidn" value="<?= $data_siswa['nidn']; ?>" class="form-control" id="nidn">
                                 </div>
                             </div>
                             <div class="col-md-3">
