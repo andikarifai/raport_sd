@@ -10,7 +10,7 @@ if (isset($_POST["submit"])) {
     $tahun = $_POST["tahun_ajar"];
     $smt = $_POST['semester'];
 
-    $tambahkelas = "INSERT INTO `tahun_ajar` (`id`, `tahun_ajar`,`semester`) VALUES (NULL, '$tahun','$smt')";
+    $tambahkelas = "INSERT INTO `tahun_ajar` (`id_thn_ajar`, `tahun_ajar`,`semester`) VALUES (NULL, '$tahun','$smt')";
     if (mysqli_query($koneksi, $tambahkelas) > 0) {
         echo "<script>
  alert('data berhasil ditambahkan');

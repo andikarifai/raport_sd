@@ -21,7 +21,7 @@ if (isset($_POST["submit"])) {
 
 
 
-    $editprofil = "UPDATE `profil` SET `nama_sekolah`='$nama',`npsn`='$npsn',`jenjang`='$jjg',`akreditasi`='$akreditasi',`alamat`='$alamat',`nama_kepsek`='$nama_kepsek',`nip_kepsek`='$nip_kepsek',`pangkat_kepsek`='$pangkat',`jabatan_kepsek`='$jabatan',`alamat_kepsek`='$alamat_kepsek' WHERE `profil`.`id_profil` = $id";
+    $editprofil = "UPDATE `profil` SET `nama_sekolah`='$nama',`npsn`='$npsn',`jenjang`='$jjg',`akreditasi`='$akreditasi',`alamat`='$alamat',`nama_kepsek`='$nama_kepsek',`nip_kepsek`='$nip_kepsek',`pangkat_kepsek`='$pangkat',`jabatan_kepsek`='$jabatan',`alamat_kepsek`='$alamat_kepsek' WHERE `profil`.`id_profil` = '$id'";
 
 
     if (mysqli_query($koneksi, $editprofil) > 0) {

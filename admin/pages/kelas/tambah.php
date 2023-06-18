@@ -8,11 +8,11 @@ include_once('../../../koneksi.php')
 
 <?php
 if (isset($_POST["submit"])) {
-    $id = $_POST["id_kelas"];
+    $id = $_POST['id_kelas'];
     $kelas = $_POST["nama_kelas"];
     $wali = $_POST["nama_wali_kelas"];
 
-    $tambahkelas = "INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `nama_wali_kelas`) VALUES ('$id', '$kelas', '$wali');";
+    $tambahkelas = "INSERT INTO `kelas` (`id_kelas`, `nama_kelas`, `nama_wali_kelas`) VALUES (NULL, '$kelas', '$wali');";
     if (mysqli_query($koneksi, $tambahkelas) > 0) {
         echo "<script>
  alert('data berhasil ditambahkan');
@@ -42,6 +42,8 @@ if (isset($_POST["submit"])) {
                 <form action="" method="post">
 
                     <div class="row">
+                    <input type="hidden" name="id_kelas" id="id_kelas" value="" class="form-control">
+                    
                         <div class="col-md-4">
                             <label for="nama"> Kelas</label>
                             <input type="text" name="nama_kelas" id="nama_kelas" value="" class="form-control">
@@ -58,6 +60,7 @@ if (isset($_POST["submit"])) {
                                 } ?>
                             </select>
                         </div>
+                        
                     </div>
                     <br><br>
                     <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>

@@ -45,33 +45,42 @@ if (isset($_POST["submit"])) {
                 <form action="" method="post">
                     <?php
                     $id = decryptId($_GET['id']);
-
                     $kelas = mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas = '$id'");
                     while ($kelas_tampil = mysqli_fetch_assoc($kelas)) {
 
                     ?>
 
                         <input type="hidden" name="id_kelas" id="id_kelas" value="<?= $kelas_tampil['id_kelas'] ?>" class="form-control">
-                        <div class="col-md-4">
-                            <label for="nama">Nama Kelas
-                                <input type="text" name="nama_kelas" id="nama_kelas" value="<?= $kelas_tampil['nama_kelas'] ?>" class="form-control">
-                            </label>
+                    
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="nama_kelas" class="control-label">Kelas</label>
+                                    <select class="form-control" name="nama_kelas" id="nama_kelas">
+                                        <option disabled>Pilih Kelas</option>
+                                        <?php
+                                        $sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas") or die(mysqli_error($koneksi));
+                                        while ($datakelas = mysqli_fetch_assoc($sql_kelas)) {
+                                            $selected = ($datakelas['nama_kelas'] == $kelas_tampil['nama_kelas']) ? 'selected' : '';
+                                            echo '<option value="' . $datakelas["nama_kelas"] . '" ' . $selected . '>' . $datakelas["nama_kelas"] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
 
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="jk">Guru Wali Kelas</label>
-
-                            <select name="nama_wali_kelas" id="nama_wali_kelasu" value="<?= $mapels['nama_guru'] ?>" class="form-control">
-                                <option value="" selected disabled>Pilih Nama Guru</option>
-                                <?php $sql_guru = mysqli_query($koneksi, "SELECT * FROM guru") or die(mysqli_error($koneksi));
-                                while ($dataguru = mysqli_fetch_assoc($sql_guru)) {
-                                    echo '<option value="' . $dataguru["nama_guru"] . '">' . $dataguru["nama_guru"]
-                                        . '</option>';
-                                } ?>
-                            </select>
-                        </div>
-
+                            <div class="col-md-4">
+                                <label for="jk">Guru Wali Kelas</label>
+                                <select name="nama_wali_kelas" id="nama_wali_kelas" class="form-control">
+                                    <option disabled>Pilih Nama Guru</option>
+                                    <?php
+                                    $sql_guru = mysqli_query($koneksi, "SELECT * FROM guru") or die(mysqli_error($koneksi));
+                                    while ($dataguru = mysqli_fetch_assoc($sql_guru)) {
+                                        $selected = ($kelas_tampil['nama_wali_kelas'] == $dataguru['nama_guru']) ? 'selected' : '';
+                                        echo '<option value="' . $dataguru["nama_guru"] . '" ' . $selected . '>' . $dataguru["nama_guru"] . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
 
                         <div> <br>
                             <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>

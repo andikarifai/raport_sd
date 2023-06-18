@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
     $pgw = $_POST["status_kepegawaian_guru"];
 
 
-    $editguru = "UPDATE `guru` SET `nama_guru` = '$nama', `nip_guru` = '$nip', `jk_guru` = '$jk', `status_guru` = '$status', `status_kepegawaian_guru` = '$pgw' WHERE `guru`.`id_guru` = $id";
+    $editguru = "UPDATE `guru` SET `nama_guru` = '$nama', `nip_guru` = '$nip', `jk_guru` = '$jk', `status_guru` = '$status', `status_kepegawaian_guru` = '$pgw' WHERE `guru`.`id_guru` = '$id'";
     if (mysqli_query($koneksi, $editguru) > 0) {
         echo "<script>
  alert('data berhasil diubah!');
@@ -52,14 +52,12 @@ if (isset($_POST["submit"])) {
                     <?php
 
                     $id = decryptId($_GET['id']);
-$stmt = $koneksi->prepare("SELECT * FROM guru WHERE id_guru = ?");
-$stmt->bind_param("s", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-while ($data_guru = $result->fetch_assoc()) {
- 
-
-
+                    $stmt = $koneksi->prepare("SELECT * FROM guru WHERE id_guru = ?");
+                    $stmt->bind_param("s", $id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    while ($data_guru = $result->fetch_assoc()) {
+                    
 
                     ?>
                         <div class="row">
@@ -74,32 +72,33 @@ while ($data_guru = $result->fetch_assoc()) {
                                 <input type="text" name="nip_guru" id="nip_guru " value="<?= $data_guru["nip_guru"]; ?>" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label for="jk">Jenis Kelamin</label>
-                                <select name="jk_guru" id="jk_guru" value="<?= $data_guru["jk_guru"]; ?>" class="form-control">
-                                    <option value="L" class="form-control">L</option>
-                                    <option value="P" class="form-control">P</option>
-
+                                <label for="jk_guru">Jenis Kelamin</label>
+                                <select name="jk_guru" id="jk_guru" class="form-control">
+                                    <option value="L" <?php if ($data_guru["jk_guru"] == "L") echo "selected"; ?>>L</option>
+                                    <option value="P" <?php if ($data_guru["jk_guru"] == "P") echo "selected"; ?>>P</option>
                                 </select>
                             </div>
+
                         </div>
                         <div class="row">
 
-                            <div class="col-md-4">
-                                <label for="jk">Guru Status</label>
-                                <select name="status_guru" id="status_guru" value="<?php if ($data_guru['jk_guru']); ?>" class="form-control">
-                                    <option value="GURU AKTIF" class="form-control">GURU AKTIF</option>
-                                    <option value="WALI KELAS" class="form-control">WALI KELAS</option>
+                        <div class="col-md-4">
+                            <label for="status_guru">Guru Status</label>
+                            <select name="status_guru" id="status_guru" class="form-control">
+                                <option value="GURU AKTIF" <?php if ($data_guru['status_guru'] == "GURU AKTIF") echo "selected"; ?>>GURU AKTIF</option>
+                                <option value="WALI KELAS" <?php if ($data_guru['status_guru'] == "WALI KELAS") echo "selected"; ?>>WALI KELAS</option>
+                            </select>
+                        </div>
+                        
 
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="jk">Status Kepegawaian</label>
-                                <select name="status_kepegawaian_guru" id="status_kepegawaian_guru" value="<?= $data_guru["status_kepegawaian_guru"] ?>" class="form-control">
-                                    <option value="PNS" class="form-control">PNS</option>
-                                    <option value="GTT" class="form-control">GTT</option>
+                        <div class="col-md-4">
+                            <label for="status_kepegawaian_guru">Status Kepegawaian</label>
+                            <select name="status_kepegawaian_guru" id="status_kepegawaian_guru" class="form-control">
+                                <option value="PNS" <?php if ($data_guru['status_kepegawaian_guru'] == "PNS") echo "selected"; ?>>PNS</option>
+                                <option value="GTT" <?php if ($data_guru['status_kepegawaian_guru'] == "GTT") echo "selected"; ?>>GTT</option>
+                            </select>
+                        </div>
 
-                                </select>
-                            </div>
                         </div>
                         <br><br>
                         <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>

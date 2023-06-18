@@ -10,6 +10,7 @@ function encryptId($id)
 function decryptId($encrypted)
 {
     $encryption_key = "Kunc1Enkr1ps1@2023"; // ganti dengan kunci enkripsi yang Anda inginkan
-    list($encrypted_data, $iv) = explode('::', str_pad(base64_decode($encrypted), 16, "\0"), 2);
-    return openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, 0, $iv);
+    list($encrypted_data, $iv) = explode('::', base64_decode($encrypted), 2);
+    $padded_iv = str_pad($iv, 16, "\0");
+    return openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, OPENSSL_ZERO_PADDING, $padded_iv);
 }

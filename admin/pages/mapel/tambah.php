@@ -45,39 +45,19 @@ if (isset($_POST["submit"])) {
                             <label for="nama">Nama Mata Pelajaran</label>
                             <input type="text" name="nama_mapel" id="nama_mapel" value="" class="form-control">
                         </div>
+                    
                         <div class="col-md-4">
                             <label for="nama">Kode Mapel</label>
                             <input type="text" name="kode_mapel" id="kode_mapel" value="" class="form-control">
                         </div>
-                    </div>
-                    <div class="row">
+                        
                         <div class="col-md-4">
-                            <label for="jk">Semester</label>
-                            <select name="id_semester" id="id_semester" class="form-control">
-                                <option value="" selected disabled>-Pilih</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="jk">Nama Guru Mapel</label>
-                            <select name="nama_guru" id="nama_guru" class="form-control">
-                                <option value="" selected disabled>Pilih Nama Guru</option>
-                                <?php $sql_guru = mysqli_query($koneksi, "SELECT * FROM guru") or die(mysqli_error($koneksi));
-                                while ($dataguru = mysqli_fetch_assoc($sql_guru)) {
-                                    echo '<option value="' . $dataguru["nama_guru"] . '">' . $dataguru["nama_guru"]
-                                        . '</option>';
-                                }
-
-                                ?>
-
-                            </select>
+                            <label for="guru_mapel">Nama Guru Mapel</label>
+                            <input type="text" name="nama_guru" id="nama_guru" value="" class="form-control">
                         </div>
                     </div>
                     <br>
                     <button type="submit" name="submit" id="submit" class="btn btn-success">Simpan</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
                     <a href="index.php" class="btn btn-warning">Kembali</a>
             </div>
         </div>

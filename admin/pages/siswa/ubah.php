@@ -22,7 +22,7 @@ if (isset($_POST["submit"])) {
     $krjayah = $_POST["kerja_ayah"];
     $krjibu = $_POST["kerja_ibu"];
     $nmkelas = $_POST["nama_kelas"];
-    $ubah = "UPDATE `siswa` SET  `nidn` = '$nis', `nisn`='$nisn', `nama_siswa`='$nama', `jenis_kelamin`= '$jk', `tempat_lahir_siswa`= '$tmplahir', `tanggal_lahir_siswa`='$tgllhr', `agama_siswa`='$agama', `alamat_siswa`='$alamat', `nama_ayah`= '$nmayah', `nama_ibu`='$nmibu', `kerja_ayah`= '$krjayah', `kerja_ibu`= '$krjibu', `nama_kelas` = '$nmkelas' WHERE siswa.id_siswa = $id;";
+    $ubah = "UPDATE `siswa` SET  `nidn` = '$nis', `nisn`='$nisn', `nama_siswa`='$nama', `jenis_kelamin`= '$jk', `tempat_lahir_siswa`= '$tmplahir', `tanggal_lahir_siswa`='$tgllhr', `agama_siswa`='$agama', `alamat_siswa`='$alamat', `nama_ayah`= '$nmayah', `nama_ibu`='$nmibu', `kerja_ayah`= '$krjayah', `kerja_ibu`= '$krjibu', `nama_kelas` = '$nmkelas' WHERE siswa.id_siswa = '$id';";
     if (mysqli_query($koneksi, $ubah) > 0) {
         echo "<script>
         alert('data berhasil diubah!');
@@ -54,7 +54,7 @@ if (isset($_POST["submit"])) {
                 <form action="" method="post">
                     <?php
                     $id = decryptId($_GET['id']);
-                    $murid = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = $id");
+                    $murid = mysqli_query($koneksi, "SELECT * FROM siswa WHERE id_siswa = '$id'");
                     while ($data_siswa = mysqli_fetch_assoc($murid)) {
                     ?>
                         <div class="row">
@@ -78,14 +78,15 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="kode" class="control-label">Jenis Kelamin</label>
-                                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" value="<?= $data_siswa['jenis_kelamin']; ?>">
-                                        <option>L</option>
-                                        <option>P</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <label for="jenis_kelamin" class="control-label">Jenis Kelamin</label>
+                                <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                                    <option value="L" <?php if ($data_siswa['jenis_kelamin'] == 'L') echo 'selected'; ?>>L</option>
+                                    <option value="P" <?php if ($data_siswa['jenis_kelamin'] == 'P') echo 'selected'; ?>>P</option>
+                                </select>
                             </div>
+                        </div>
+
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -101,17 +102,17 @@ if (isset($_POST["submit"])) {
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="kode" class="control-label">Agama</label>
-                                    <select class="form-control" name="agama_siswa" value="<?= $data_siswa['agama_siswa']; ?>">
-                                        <option>Islam</option>
-                                        <option>Kristen</option>
-                                        <option>Budha</option>
-                                        <option>Hindu</option>
-                                    </select>
-
-                                </div>
+                            <div class="form-group">
+                                <label for="agama_siswa" class="control-label">Agama</label>
+                                <select class="form-control" name="agama_siswa" id="agama_siswa">
+                                    <option value="Islam" <?php if ($data_siswa['agama_siswa'] == 'Islam') echo 'selected'; ?>>Islam</option>
+                                    <option value="Kristen" <?php if ($data_siswa['agama_siswa'] == 'Kristen') echo 'selected'; ?>>Kristen</option>
+                                    <option value="Budha" <?php if ($data_siswa['agama_siswa'] == 'Budha') echo 'selected'; ?>>Budha</option>
+                                    <option value="Hindu" <?php if ($data_siswa['agama_siswa'] == 'Hindu') echo 'selected'; ?>>Hindu</option>
+                                </select>
                             </div>
+                        </div>
+
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="kode" class="control-label">Alamat</label>
@@ -151,21 +152,21 @@ if (isset($_POST["submit"])) {
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="kode" class="control-label">Kelas</label>
-                                    <select class="form-control" name="nama_kelas">
+                                    <label for="nama_kelas" class="control-label">Kelas</label>
+                                    <select class="form-control" name="nama_kelas" id="nama_kelas">
                                         <option>Pilih Kelas</option>
-                                        <?php $sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas") or die(mysqli_error($koneksi));
+                                        <?php
+                                        $sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas") or die(mysqli_error($koneksi));
                                         while ($datakelas = mysqli_fetch_assoc($sql_kelas)) {
-                                            echo '<option value="' . $datakelas["nama_kelas"] . '">' . $datakelas["nama_kelas"]
-                                                . '</option>';
+                                            $selected = ($datakelas['nama_kelas'] == $data_siswa['nama_kelas']) ? 'selected' : '';
+                                            echo '<option value="' . $datakelas["nama_kelas"] . '" ' . $selected . '>' . $datakelas["nama_kelas"] . '</option>';
                                         }
-
                                         ?>
                                     </select>
-
                                 </div>
                             </div>
                         </div>
+
                         <br>
 
                         <button type="submit" class="btn btn-success" name="submit" id="submit">Update</button>

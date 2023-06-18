@@ -77,7 +77,7 @@ if ($_SESSION) {
                                                 $_SESSION['username'] = $username;
                                                 $_SESSION['level'] = 'siswa';
                                                 $_SESSION['kelas'] = $row['kelas'];
-                                                $_SESSION['nis'] = $row['id_session'];
+                                                $_SESSION['nidn'] = $row['id_session'];
                                                 header("Location: siswa/pages/informasi/");
                                             } else {
                                                 echo '<div class="alert alert-danger">Maaf.. Login Salah.</div>';

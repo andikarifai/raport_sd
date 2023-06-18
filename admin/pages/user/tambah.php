@@ -84,15 +84,26 @@ if (isset($_POST["submit"])) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-5">
-                            <label for="kelas">Kelas (jika Wali Kelas, yang Diampu)</label>
-                            <input type="text" name="kelas" id="kelas" value="" class="form-control">
+                    <div class="col-lg-5">
+                            <div class="form-group">
+                                <label for="kode" class="control-label">Kelas / Wali Kelas( Kosongkan jika tidak perlu )</label>
+                                <select class="form-control" name="kelas">
+                                    <option disabled selected>Pilih Kelas</option>
+                                    <?php $sql_kelas = mysqli_query($koneksi, "SELECT * FROM kelas") or die(mysqli_error($koneksi));
+                                    while ($datakelas = mysqli_fetch_assoc($sql_kelas)) {
+                                        echo '<option value="' . $datakelas["nama_kelas"] . '">' . $datakelas["nama_kelas"]
+                                            . '</option>';
+                                    }
 
+                                    ?>
+                                </select>
+
+                            </div>
                         </div>
-                    </div>
+                        </div>
                     <div class="row">
                         <div class="col-lg-5">
-                            <label for="kelas">ID (nidn/nip) </label>
+                            <label for="kelas">ID (nisn/nip/nik) </label>
                             <input type="text" name="id_session" id="no_induk" value="" class="form-control">
 
                         </div>

@@ -1,6 +1,7 @@
 <?php
 
-$koneksi = mysqli_connect('localhost', 'root', '', 'raport_sd');
+// $koneksi = mysqli_connect('localhost', 'root', '', 'raport_sd');
+include_once '../../../koneksi.php';
 
 
 

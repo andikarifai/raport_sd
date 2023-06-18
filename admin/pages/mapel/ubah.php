@@ -44,7 +44,7 @@ if (isset($_POST["submit"])) {
                 <form action="" method="post">
                     <?php
                     $id = decryptId($_GET['id']);
-                    $mapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE id_mapel = $id");
+                    $mapel = mysqli_query($koneksi, "SELECT * FROM mata_pelajaran WHERE id_mapel = '$id'");
                     while ($mapels = mysqli_fetch_assoc($mapel)) {
 
                     ?>
@@ -60,34 +60,14 @@ if (isset($_POST["submit"])) {
                                 <input type="text" name="kode_mapel" id="kode_mapel" value="<?= $mapels['kode_mapel'] ?>" class="form-control">
                             </div>
 
-
                             <div class="col-md-4">
-                                <label for="jk">Semester</label>
-                                <select name="id_semester" id="id_semester" value="<?= $mapels['id_semester'] ?>" class="form-control">
-                                    <option value="" selected disabled>-Pilih</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="jk">Nama Guru Mapel</label>
-                                <select name="nama_guru" id="nama_guru" value="<?= $mapels['nama_guru'] ?>" class="form-control">
-                                    <option value="" selected disabled>Pilih Nama Guru</option>
-                                    <?php $sql_guru = mysqli_query($koneksi, "SELECT * FROM guru") or die(mysqli_error($koneksi));
-                                    while ($dataguru = mysqli_fetch_assoc($sql_guru)) {
-                                        echo '<option value="' . $dataguru["nama_guru"] . '">' . $dataguru["nama_guru"]
-                                            . '</option>';
-                                    }
-
-                                    ?>
-
-                                </select>
+                                <label for="nama_guru">Nama Guru Mapel</label>
+                                <input type="text" name="nama_guru" id="nama_guru" value="<?= $mapels['nama_guru'] ?>" class="form-control">
                             </div>
                         </div>
                         <br><br>
                         <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>
-                        <button type="reset" class="btn btn-default">Reset</button>
+                        <!-- <button type="reset" class="btn btn-secondary">Reset</button> -->
                         <a href="index.php" class="btn btn-warning">Kembali</a>
                         <div class="clearfix"></div>
                         <br>

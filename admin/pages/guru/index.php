@@ -22,8 +22,9 @@ $guru = mysqli_query($koneksi, "SELECT * FROM guru");
 
     <a href="tambah.php" class="btn btn-primary ml-4 mb-2"><i class="fa fa-plus-square" aria-hidden="true"></i> <span></span> Tambah Data Guru</a>
     <a href="export_excel.php" class="btn btn-success ml-4 mb-2" target="_blank"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Export data</a>
-    <a href="import.php" class="btn btn-success ml-4 mb-2" target="_blank"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Import data</a>
+    <a href="import.php" class="btn btn-success ml-4 mb-2"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Import data</a>
     <a href="printdata.php" class="btn btn-secondary ml-4 mb-2" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> <span></span> Print</a>
+    <a href="#" class="btn btn-danger ml-4 mb-2" data-toggle="modal" data-target="#hapusSemuaModal"><i class="fa fa-trash" aria-hidden="true"></i> Hapus Semua Data</a>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -35,6 +36,7 @@ $guru = mysqli_query($koneksi, "SELECT * FROM guru");
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>NIP</th>
                             <th>Jenis Kelamin</th>
@@ -45,12 +47,14 @@ $guru = mysqli_query($koneksi, "SELECT * FROM guru");
                     </thead>
                     <tbody>
                         <?php
+                        $nomor = $offset + 1;
                         $guru = mysqli_query($koneksi, "SELECT * FROM guru");
                         while ($tampilgr = mysqli_fetch_assoc($guru)) {
                             $id = $tampilgr['id_guru'];
 
                         ?>
                             <tr>
+                                <td><?= $nomor++; ?></td>
                                 <td><?= $tampilgr["nama_guru"]; ?></td>
                                 <td><?= $tampilgr["nip_guru"]; ?></td>
                                 <td><?= $tampilgr["jk_guru"]; ?></td>
@@ -85,5 +89,26 @@ $guru = mysqli_query($koneksi, "SELECT * FROM guru");
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+<!-- Modal Hapus Semua Data -->
+<div class="modal fade" id="hapusSemuaModal" tabindex="-1" role="dialog" aria-labelledby="hapusSemuaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="hapusSemuaModalLabel">Konfirmasi Hapus Semua Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin ingin menghapus semua data siswa? Tindakan ini tidak dapat dikembalikan.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <a href="hapus_semua.php?hapus_semua=1" class="btn btn-danger">Hapus Semua</a>
+         <!-- Tambahkan parameter hapus_semua=1 pada URL -->
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php include '../template/footer.php' ?>

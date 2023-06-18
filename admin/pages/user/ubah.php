@@ -5,6 +5,8 @@ session_start();
 include_once('../template/header.php');
 include_once('../../../koneksi.php');
 
+include_once('../../../function.php');
+
 if (isset($_POST["submit"])) {
     $id = $_POST["id"];
     $user = $_POST["username"];
@@ -52,66 +54,62 @@ if (isset($_POST["submit"])) {
 
 
                 ?>
-                    <!-- Input Form -->
-                    <form action="" method="post">
-                        <input type="hidden" name="id" value="<?= $id; ?>">
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="nama">Username
-                                    <input type="text" name="username" id="username" value="<?= $tampil_user['username'] ?>" class="form-control">
-                                </label>
-                            </div>
+                   <!-- Input Form -->
+<form action="" method="post">
+    <input type="hidden" name="id" value="<?= $id; ?>">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="<?= $tampil_user['username'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-group">
+                    <input type="password" name="password" id="pass" class="form-control">
+                    <div class="input-group-append">
+                        <span id="mybutton" onclick="change()" class="input-group-text">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-eye-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                                <path fill-rule="evenodd" d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nama">Nama</label>
+                <input type="text" name="nama" id="nama" value="<?= $tampil_user['nama'] ?>" class="form-control">
+            </div>
+        </div>
+    <div class="col-md-6">
+<div class="form-group">
+        <label for="level">Level</label>
+        <select name="level" id="level" class="form-control" required>
+            <option value="" disabled>--Pilih--</option>
+            <option value="1" <?php if ($tampil_user['level'] == 1) echo 'selected'; ?>>Admin</option>
+            <option value="2" <?php if ($tampil_user['level'] == 2) echo 'selected'; ?>>Wali Kelas/Guru</option>
+            <option value="3" <?php if ($tampil_user['level'] == 3) echo 'selected'; ?>>Siswa</option>
+        </select>
+    </div>
+            <div class="form-group">
+                <label for="kelas">Kelas (jika Wali Kelas kelas yang diampu)</label>
+                <input type="text" name="kelas" id="kelas" value="<?= $tampil_user['kelas'] ?>" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="id_session">NIP/NISN</label>
+                <input type="text" name="id_session" id="id_session" value="<?= $tampil_user['id_session'] ?>" class="form-control">
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <button type="submit" class="btn btn-success" name="submit" id="submit">Update</button>
+                        <a href="index.php" class="btn btn-warning">Cancel</a>
+                        <div class="clearfix"></div>
+                        <br>
 
-                        </div>
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="nama">Password
-                                    <input type="password" name="password" id="password" value="" class="form-control">
-                                </label>
+                        </form>
 
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="nama">Nama
-                                    <input type="text" name="nama" id="nama" value="<?= $tampil_user['nama'] ?>" class="form-control">
-                                </label>
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="nama">Level
-                                    <select name="level" id="level" class="form-control" value="<?= $tampil_user['level'] ?>">
-                                        <option value="" selected disabled>--Pilih--</option>
-                                        <option value="1">Admin</option>
-                                        <option value="2">Guru</option>
-                                        <option value="3">Siswa</option>
-
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="kelas">Kelas (jika Wali Kelas kelas yang diampu)
-                                <input type="text" name="kelas" id="kelas" value="<?= $tampil_user['kelas'] ?>" class="form-control">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg">
-                                <label for="kelas">NIP/NIDN
-                                <input type="text" name="no_induk" id="no_induk" value="<?= $tampil_user['id_session'] ?>" class="form-control">
-                                </label>
-                            </div>
-                        </div>
-
-                        <br><br>
-                        <button type="submit" name="submit" id="submit" class="btn btn-success">Simpan</button>
-                        <a href="index.php" class="btn btn-warning">Kembali</a>
-                    </form>
                     <br><br>
             </div>
         </div>

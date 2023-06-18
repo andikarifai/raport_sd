@@ -58,7 +58,7 @@ $murid = mysqli_query($koneksi, "SELECT * FROM siswa");
                     <thead>
                         <tr border="1">
                             <th>No</th>
-                            <th>NISN</th>
+                            <th>NIDN</th>
                             <th>Nama</th>
                             <th>NIDN</th>
                             <th>Tempat Lahir</th>

@@ -4,19 +4,21 @@ require '../../../koneksi.php';
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
-//mendapatkan file yang di-upload
+
+require_once "../../../asset/vendor/vendor/autoload.php";
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+// Mendapatkan file yang di-upload
 $file = $_FILES['file']['tmp_name'];
-// // beri permisi agar file xls dapat di baca
-// chmod($_FILES['file']['name'], 0777);
-//membaca file excel dengan library PHPExcel
 
-include('../../../asset/vendor/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php');
-$excel = PHPExcel_IOFactory::load($file);
+// Membaca file Excel
+$excel = IOFactory::load($file);
 
-//mendapatkan jumlah sheet pada file excel
+// Mendapatkan jumlah sheet pada file Excel
 $sheets = $excel->getSheetCount();
 
-//mendapatkan nama sheet pertama
+// Mendapatkan nama sheet pertama
 $excel->setActiveSheetIndex(0);
 $sheet = $excel->getActiveSheet()->toArray(null, true, true, true);
 

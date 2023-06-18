@@ -6,7 +6,7 @@ include_once('../template/header.php');
 include_once('../../../koneksi.php');
 
 $id = $_GET['id'];
-$hapus = "DELETE FROM guru WHERE guru.id_guru = $id";
+$hapus = "DELETE FROM guru WHERE guru.id_guru = '$id'";
 if (mysqli_query($koneksi, $hapus) > 0) {
     echo "<script>
     alert('data berhasil dihapus');

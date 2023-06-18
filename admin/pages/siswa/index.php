@@ -11,6 +11,8 @@ include_once('../template/header.php');
 
 include_once('../../../function.php');
 
+
+
 // Tentukan jumlah data per halaman
 $jumlahDataPerHalaman = 10;
 
@@ -43,8 +45,9 @@ $totalHalaman = ceil($totalData / $jumlahDataPerHalaman);
 
     <a href="tambah.php" class="btn btn-primary ml-4 mb-2"><i class="fa fa-plus-square" aria-hidden="true"></i> <span></span> Tambah Data Siswa</a>
     <a href="export_excel.php" class="btn btn-success ml-4 mb-2" target="_blank"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Export data</a>
-    <a href="import.php" class="btn btn-success ml-4 mb-2" target="_blank"><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Import data</a>
+    <a href="import.php" class="btn btn-success ml-4 mb-2" ><i class="fa fa-file-excel" aria-hidden="true"></i> <span></span> Import data</a>
     <a href="printdata.php" class="btn btn-secondary ml-4 mb-2" target="_blank"><i class="fa fa-print" aria-hidden="true"></i> <span></span> Print</a>
+    <a href="#" class="btn btn-danger ml-4 mb-2" data-toggle="modal" data-target="#hapusSemuaModal"><i class="fa fa-trash" aria-hidden="true"></i> Hapus Semua Data</a>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -154,6 +157,7 @@ $totalHalaman = ceil($totalData / $jumlahDataPerHalaman);
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+<!-- Modal Hapus Semua Data -->
 
 
 <?php include '../template/footer.php' ?>

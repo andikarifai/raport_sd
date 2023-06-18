@@ -52,8 +52,8 @@ $tahun = mysqli_query($koneksi, "SELECT * FROM tahun_ajar");
                                 <td><?= $tampil["tahun_ajar"]; ?></td>
                                 <td><?= $tampil["semester"]; ?></td>
                                 <td>
-                                    <a href="ubah.php?id=<?= encryptId($tampil["id"]); ?>" class="badge badge-warning badge-pill"> <i class="fa fa-edit"></i><span></span> Edit</a>
-                                    <a href="hapus.php?id=<?= encryptId($tampil["id"]);  ?>" class="badge badge-danger badge-pill" onclick="return confirm('Apakah anda yakin ingin menghapus?');"> <i class="fa fa-trash"></i><span></span> Hapus</a>
+                                    <a href="ubah.php?id=<?= encryptId($tampil["id_thn_ajar"]); ?>" class="badge badge-warning badge-pill"> <i class="fa fa-edit"></i><span></span> Edit</a>
+                                    <a href="hapus.php?id=<?= encryptId($tampil["id_thn_ajar"]);  ?>" class="badge badge-danger badge-pill" onclick="return confirm('Apakah anda yakin ingin menghapus?');"> <i class="fa fa-trash"></i><span></span> Hapus</a>
                                 </td>
 
                             </tr>

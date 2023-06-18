@@ -2,9 +2,13 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
+if (empty($_SESSION)) {
+    echo "<script>
+ alert('Anda Harus Login dahulu');
+ document.location.href= '../../../index.php';
+ </script>";
+}
 
-include_once '../../../koneksi.php';
-include_once('../../../function.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -127,22 +131,40 @@ include_once('../../../function.php');
   </style>
 </head>
 
-<?php
-
-if(isset($_GET['kls'])) {
-  $_SESSION['kls'] = $_GET['kls']; // menyimpan nilai kelas pada session
+  <?php
+  
+include_once '../../../koneksi.php';
+include_once('../../../function.php');
+if (!$koneksi) {
+  // Connection failed, take appropriate action
+  die("Koneksi database gagal: " . mysqli_connect_error());
 }
 
-$kelas = $_SESSION['kls'] ?? ""; // mengambil nilai kelas dari session atau menggunakan nilai default (kosong) jika session belum tersedia
+if (isset($_GET['kls'])) {
+  $_SESSION['kls'] = $_GET['kls']; // Store the class value in session
+}
 
-$kd_raport = decryptId($_GET["kd_raport"]);
-//detail nilai
-$detail =   "SELECT * FROM nilai WHERE  kd_raport='$kd_raport'";
+$kelas = $_SESSION['kls'] ?? ""; // Get the class value from session or use default value (empty) if session is not available
+$kd_raport = decryptId($_GET['kd_raport']);
+$kd_raport = preg_replace("/[^a-zA-Z0-9]/", "", $kd_raport); // Menghapus karakter non-alfanumerik
+
+
+// Detail nilai
+$detail = "SELECT * FROM `nilai` WHERE `kd_raport` = '$kd_raport'";
 $show = mysqli_query($koneksi, $detail);
-//tampung semua data 
+if (!$show) {
+  die("Query error: " . mysqli_error($koneksi)); // Display error message if query fails
+}
+
+if (mysqli_num_rows($show) == 0) {
+  die("Data tidak ditemukan."); // Display message if no data is found
+}
+
 $shows = mysqli_fetch_assoc($show);
-$namasiswa = $shows["nama_siswa"];
-$nis = $shows["nis"];
+
+// Continue processing the data
+$namasiswa = $shows['nama_siswa'];
+$nis = $shows["nidn"];
 $nisn = $shows["nisn"];
 $kelas = $shows["nama_kelas"];
 $semester = $shows["id_semester"];
@@ -177,12 +199,19 @@ $kd_raport =  $shows["kd_raport"];
 $keputusan =  $shows["keputusan"];
 
 $no = 1;
-$time = date('d F,  Y');
+$time = date('d F, Y');
 $hitung = "SELECT SUM(nama_mapel) AS totalmapel, SUM(nilai_pengetahuan) AS totalnilai1,SUM(nilai_ketrampilan) AS totalnilai2 FROM nilai WHERE kd_raport ='$kd_raport' GROUP BY kd_raport";
 $vhitung = mysqli_query($koneksi, $hitung);
+
+if (!$vhitung) {
+  die("Query error: " . mysqli_error($koneksi)); // Display error message if query fails
+}
+
 $hasil = mysqli_fetch_assoc($vhitung);
+$totalmapel = $hasil['totalmapel'];
 $totalnilai1 = $hasil['totalnilai1'];
 $totalnilai2 = $hasil['totalnilai2'];
+
 
 $totalmapel = $hasil['totalmapel'];
 $nmsekolah = "SDN 2 Pringanom";
@@ -222,6 +251,12 @@ $no = 1;
 <!-- Halaman Identitas Cover -->
 <div class="container mt-5">
   <table class="table" style="margin-left: 240px;margin: right 230px;max-width: 500px; border-color: black;color:black;font-size:large;">
+  <?php
+  // var_dump($shows);
+  // var_dump($detail);
+  // var_dump($show);
+
+  ?>
     <tbody>
       <tr style="border: 2px solid black;">
         <td style=" width: 200px;border: 2px solid black;"><strong>Nama Siswa</strong></td>
@@ -229,7 +264,7 @@ $no = 1;
         <td style="border: 2px solid black;"><strong><?= $namasiswa ?></strong></td>
       </tr>
       <tr style="border: 2px solid black;">
-        <td style=" width: 200px;border: 2px solid black;"><strong>NIS</strong></td>
+        <td style=" width: 200px;border: 2px solid black;"><strong>NIDN</strong></td>
         <td style="width: 50px;border: 2px solid black;text-align:center;"><strong>:</strong></td>
         <td style="border: 2px solid black;"><strong><?= $nis ?></strong></td>
       </tr>
@@ -341,11 +376,11 @@ $no = 1;
 
     <p style='text-align: left; width:30%; display: inline-block;'>Nama : <?= $namasiswa ?></p>
     <p style='text-align: right; width: 30%;  display: inline-block;'>Semester : <?= $semester ?></p><br>
-    <p style='text-align: left; width:30%; display: inline-block;'>NIS : <?= $nis ?></p>
+    <p style='text-align: left; width:30%; display: inline-block;'>NIDN : <?= $nis ?></p>
     <p style='text-align: right; width: 30%;  display: inline-block;'>Tahun : <?= $tahun ?></p><br>
     <p style='text-align: left; width:30%; display: inline-block;'>NISN : <?= $nisn ?></p>
     <p style='text-align: right; width: 30%;  display: inline-block;'>Kelas : <?= $kelas ?></p><br>
-    <p style='text-align: right; width: 60%;  display: inline-block;'>Kode Raport : <?= $kd_raport ?></p><br><br>
+    <br><br>
   </div>
 </div>
 
@@ -423,9 +458,12 @@ $no = 1;
     //seleksi pemilihan nilai ketika 0 tidak masuk kedatabase
     $seleksi = "SELECT * FROM nilai WHERE kd_raport='$kd_raport'";
     $tampilkan = mysqli_query($koneksi, $seleksi);
+  
     $i = 1;
     while ($select_result = mysqli_fetch_assoc($tampilkan)) {
 
+      
+      $namasiswa = 
       $mapels = $select_result["nama_mapel"];
       $nilai1 = $select_result["nilai_pengetahuan"];
       $nilai2 = $select_result["nilai_ketrampilan"];
@@ -479,7 +517,6 @@ $no = 1;
             $predikat = "Tidak Terdefinisi";
           }
           echo $predikat;
-
           ?>
         </td>
 
@@ -810,7 +847,40 @@ $i++;
   </table>
   <br>
 
+
+	<?php
+
+	//   mengambil data kelas peserta didik dari database
+	$sql = "SELECT nama_kelas FROM siswa where nisn = '$nisn'";
+	$result = mysqli_query($koneksi, $sql);
+	$row = mysqli_fetch_assoc($result);
+  $kelas_sebelumnya = intval($row['nama_kelas']);
+
+	// menentukan nilai kelas baru
+	if ($keputusan == "Naik") {
+		// jika naik kelas, tambahkan 1 pada kelas sebelumnya
+		$kelas_baru = $kelas_sebelumnya + 1;
+	} else {
+		// jika tinggal kelas, kelas baru tetap sama dengan kelas sebelumnya
+		$kelas_baru = $kelas_sebelumnya;
+	}
+
+	if ($semester == 2) {
+	?>
+		<table class='tg' style='margin-left: 200px;table-layout: fixed; width: 70%; height: 150px;border-color: black;color:black'>
+
+			<tr>
+				<td>
+					<h6> <strong> Berdasar pencapaian seluruh kompetensi peserta didik dinyatakan : <?= $keputusan ?> kelas <?= $kelas_baru ?></strong></h6>
+
+
+				</td>
+			</tr>
+		</table>
 </div>
+<?php
+	}
+?>
 <div class='container'>
 </div>
 </div>
@@ -818,6 +888,7 @@ $i++;
 
 </div>
 </div>
+
 
 
 
@@ -833,11 +904,11 @@ $i++;
 
 <?php
 $kls = $_GET['kls'];
-$cari = "SELECT * FROM kelas WHERE nama_kelas='$kls'";
+$cari = "SELECT kelas.nama_wali_kelas, users.id_session FROM kelas JOIN users ON kelas.nama_wali_kelas = users.nama WHERE kelas.nama_kelas='$kls'";
 $tmp = mysqli_query($koneksi, $cari);
 while ($select_hasil = mysqli_fetch_assoc($tmp)) {
-  $nama_guru = $select_hasil['nama_wali_kelas'];
-  $nip = $select_hasil['nip_guru'];
+	$nama_guru = $select_hasil['nama_wali_kelas'];
+	$nip = $select_hasil['id_session'];
 ?>
   <div style="height: 50px;color:black"></div>
   <table style="width:100%;color:black">

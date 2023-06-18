@@ -70,6 +70,7 @@ if (isset($_POST["submit"])) {
 
                             </select>
                         </div>
+                       
                         <div class="col-md-4">
                             <label for="pgw">Status Kepegawaian</label>
                             <select name="status_kepegawaian_guru" id="status_kepegawaian_guru" class="form-control">
